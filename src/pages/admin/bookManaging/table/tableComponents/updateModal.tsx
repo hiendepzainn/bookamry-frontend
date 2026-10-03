@@ -52,6 +52,8 @@ const BookUpdateModal = (props: IProps) => {
 
   const [form] = Form.useForm<IBookCreate>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   //list for </UPLOAD>
   const [listSlider, setListSlider] = useState<UploadFile[]>([]);
   const [listThumbnail, setListThumbnail] = useState<UploadFile[]>([]);
@@ -59,6 +61,8 @@ const BookUpdateModal = (props: IProps) => {
   const [isThumbnailUploaded, setIsThumbnailUploaded] = useState(true);
 
   const onFinish: FormProps<IBookCreate>["onFinish"] = async (values) => {
+    setIsLoading(true);
+
     //SLIDER
     const listFileNameSlider: string[] = [];
 
@@ -86,6 +90,7 @@ const BookUpdateModal = (props: IProps) => {
       message.success("Update Success!!!");
       //close modal
       setIsUpdateModalOpen(false);
+      setIsLoading(false);
 
       //reload table
       await fetchBooks(
@@ -159,6 +164,7 @@ const BookUpdateModal = (props: IProps) => {
       okText="Update"
       cancelText="Hủy"
       onOk={() => form.submit()}
+      okButtonProps={{ loading: isLoading }}
       onCancel={() => {
         setIsUpdateModalOpen(false);
         form.resetFields();
@@ -193,7 +199,7 @@ const BookUpdateModal = (props: IProps) => {
                   message: "Vui lòng không bỏ trống!",
                 },
                 {
-                  pattern: /^[a-zA-ZÀ-ỹ\s]+$/,
+                  pattern: /^[a-zA-ZÀ-ỹ\s.,-]+$/,
                   message: "Chỉ được phép nhập chữ cái!",
                 },
               ]}

@@ -51,8 +51,10 @@ const BookCreateModal = (props: IProps) => {
 
   const [isThumbnailUploaded, setIsThumbnailUploaded] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onFinish: FormProps<IBookCreate>["onFinish"] = async (values) => {
-    console.log("Success:", values);
+    setIsLoading(true);
 
     //upload thumbnail
     let thumbnail = "";
@@ -85,6 +87,7 @@ const BookCreateModal = (props: IProps) => {
       message.success("create book success!!!");
 
       //close & reset
+      setIsLoading(false);
       setIsCreateModalOpen(false);
       form.resetFields();
 
@@ -134,6 +137,7 @@ const BookCreateModal = (props: IProps) => {
       okText="Tạo mới"
       cancelText="Hủy"
       onOk={() => form.submit()}
+      okButtonProps={{ loading: isLoading }}
       onCancel={() => {
         setIsCreateModalOpen(false);
       }}
@@ -167,7 +171,7 @@ const BookCreateModal = (props: IProps) => {
                   message: "Vui lòng không bỏ trống!",
                 },
                 {
-                  pattern: /^[a-zA-ZÀ-ỹ\s]+$/,
+                  pattern: /^[a-zA-ZÀ-ỹ\s.,-]+$/,
                   message: "Chỉ được phép nhập chữ cái!",
                 },
               ]}

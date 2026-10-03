@@ -137,6 +137,9 @@ const AppHeader = (props: IProps) => {
       height: "36px",
       marginRight: screens.xs ? "-12px" : "12px",
       marginLeft: screens.xs ? "18px" : "0px",
+      animation: "spin 10s linear infinite",
+      transformOrigin: "center center",
+      display: "inline-block",
     },
     brandName: {
       fontSize: "22px",
